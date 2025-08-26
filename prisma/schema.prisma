@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/** 사용자 */
+model User {
+  id          String    @id                                 // id
+  password    String    @db.VarChar(300)                    // 비밀번호
+  nickNm      String    @unique         @map("nick_nm")     // 닉네임
+  email       String    @unique                             // 이메일
+  
+  remark_txt  String    @db.VarChar(500)                    // 비고
+  created_at  DateTime  @default(now()) @map("created_at")  // 등록일시
+  updated_at  DateTime  @updatedAt      @map("updated_at")  // 수정일시
+
+  todos    TodoList[]                                       // 할일
+}
+
+/** 할일 목록 */
+model TodoList {
+  no          Int       @id @default(autoincrement())       // 할일No
+  title       String    @db.VarChar(50)                     // 할일 제목
+  status      String    @db.VarChar(2)                      // 할일 상태
+  highlightYn String    @db.VarChar(1)                      // 강조유무
+  memo        String    @db.Text                            // 메모
+
+  remark_txt  String    @db.VarChar(500)                    // 비고
+  created_at  DateTime  @default(now()) @map("created_at")  // 등록일시
+  updated_at  DateTime  @updatedAt      @map("updated_at")  // 수정일시
+
+  userId      String    @db.VarChar(300)                    // 아이디
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("todo_list")
+}
+
+/** 공통코드 */
+model CommonCd {
+  no          Int       @id @default(autoincrement())       // 공통코드No
+  group_nm    String    @db.VarChar(50)                     // 공통코드 그룹명
+  code        String    @db.VarChar(50)                     // 코드
+  value       String    @db.VarChar(100)                    // 값
+
+  remark_txt  String    @db.VarChar(500)                    // 비고
+  created_at  DateTime  @default(now()) @map("created_at")  // 등록일시
+  updated_at  DateTime  @updatedAt      @map("updated_at")  // 수정일시
+  
+  @@map("common_cd")
+}
