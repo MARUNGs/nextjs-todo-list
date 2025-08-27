@@ -1,0 +1,70 @@
+"use client";
+
+import { useState } from "react";
+import { useDroppable } from "@dnd-kit/core";
+import PlaceholderCard from "./placeholder-card";
+import SortableCard from "./sortable-card";
+
+type Props = {
+  columnId: string;
+  items: { no: number; title: string }[];
+  onAdd: (text: string) => void;
+};
+
+export default function KanbanColumn({ columnId, items, onAdd }: Props) {
+  const [newCard, setNewCard] = useState("");
+  const { setNodeRef, isOver } = useDroppable({ id: columnId });
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={`p-4 rounded-md w-64 min-w-[16rem] transition
+        ${isOver ? "bg-indigo-100" : "bg-gray-100"}
+        ${
+          columnId === "todo"
+            ? "bg-gray-100 dark:bg-gray-100/30"
+            : columnId === "doing"
+            ? "!bg-blue-100/30"
+            : "!bg-green-100/30"
+        }
+      `}
+    >
+      <h2
+        className={`text-lg w-fit px-2 font-semibold capitalize mb-2 rounded-full ${
+          columnId === "todo"
+            ? "bg-gray-800 text-white"
+            : columnId === "doing"
+            ? "bg-blue-700 text-white"
+            : "bg-green-700 text-white"
+        }`}
+      >
+        {columnId}
+      </h2>
+
+      <div className="flex flex-col h-[30rem] justify-between">
+        <div className="space-y-2 min-h-[4rem] flex-1 overflow-auto scroll-hide">
+          {items.length === 0 ? (
+            <PlaceholderCard id={`${columnId}-placeholder`} />
+          ) : (
+            items.map((item) => (
+              <SortableCard key={item.no} no={item.no} title={item.title} />
+            ))
+          )}
+        </div>
+
+        <input
+          className="border px-2 py-1 rounded text-sm w-full mt-3"
+          placeholder="카드 추가"
+          value={newCard}
+          onChange={(e) => setNewCard(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && newCard.trim()) {
+              onAdd(newCard.trim());
+              setNewCard("");
+            }
+          }}
+        />
+      </div>
+    </div>
+  );
+}
