@@ -7,8 +7,8 @@ import SortableCard from "./sortable-card";
 
 type Props = {
   columnId: string;
-  items: { no: number; title: string }[];
-  onAdd: (text: string) => void;
+  items: { id: string; title: string }[];
+  onAdd: (text: string, columnId: string) => void;
 };
 
 export default function KanbanColumn({ columnId, items, onAdd }: Props) {
@@ -47,7 +47,7 @@ export default function KanbanColumn({ columnId, items, onAdd }: Props) {
             <PlaceholderCard id={`${columnId}-placeholder`} />
           ) : (
             items.map((item) => (
-              <SortableCard key={item.no} no={item.no} title={item.title} />
+              <SortableCard key={item.id} id={item.id} title={item.title} />
             ))
           )}
         </div>
@@ -59,7 +59,7 @@ export default function KanbanColumn({ columnId, items, onAdd }: Props) {
           onChange={(e) => setNewCard(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && newCard.trim()) {
-              onAdd(newCard.trim());
+              onAdd(newCard.trim(), columnId);
               setNewCard("");
             }
           }}
