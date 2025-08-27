@@ -1,28 +1,51 @@
-import Link from "next/link";
+"use client";
+
+import { Home, LogIn } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSubButton,
 } from "../ui/sidebar";
+const users = {
+  group: "user",
+  list: [
+    { title: "Login", url: "/", icon: LogIn },
+    { title: "Home", url: "/", icon: Home },
+    { title: "Kanban", url: "/kanban", icon: Home },
+  ],
+};
 
 export default function AppSidebar() {
   return (
-    <Sidebar>
-      <SidebarHeader />
+    <Sidebar className="bg-white">
+      <SidebarHeader className="font-bold">SK MEMO</SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>사용자</SidebarGroupLabel>
+          {/* users */}
+          <SidebarGroupLabel>{users.group}</SidebarGroupLabel>
           <SidebarGroupContent>
-            <Link href="/">로그인</Link>
+            <SidebarMenu>
+              {users.list.map((menu, i) => (
+                <SidebarMenuItem key={i}>
+                  <SidebarMenuSubButton asChild>
+                    <a href={menu.url}>
+                      <menu.icon />
+                      <span>{menu.title}</span>
+                    </a>
+                  </SidebarMenuSubButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup />
       </SidebarContent>
-      <SidebarFooter />
     </Sidebar>
   );
 }
