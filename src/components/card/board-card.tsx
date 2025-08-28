@@ -4,21 +4,18 @@
 
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { X } from "lucide-react";
+import { Card, CardContent } from "../ui/card";
 
 export default function BoardCard({ title }: { title: string }) {
+  const deleteCard = () => {};
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>할일제목</CardTitle>
-        <CardDescription className="hidden" />
-      </CardHeader>
+    <Card className="group flex relative">
+      <X
+        onClick={deleteCard}
+        className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+      />
       <CardContent>{title}</CardContent>
     </Card>
   );

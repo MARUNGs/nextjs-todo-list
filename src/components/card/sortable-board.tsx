@@ -145,46 +145,39 @@ export default function SortableBoard() {
 
   if (!mounted) return null;
   return (
-    <>
-      <h1 className="text-2xl font-bold mb-4">칸반 보드</h1>
-      <Button type="button" className="mt-5 mb-5">
-        저장
-      </Button>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCorners}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <DragOverlay>
+        {activeCard ? <BoardCard title={activeCard.title} /> : null}
+      </DragOverlay>
 
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <DragOverlay>
-          {activeCard ? <BoardCard title={activeCard.title} /> : null}
-        </DragOverlay>
-
-        <div className="flex gap-4 overflow-auto">
-          {(Object.entries(columns) as [ColumnType, CardItem[]][]).map(
-            ([columnId, items]) => (
-              <SortableContext
-                key={columnId}
-                items={
-                  items.length > 0
-                    ? items.map((item) => item.id)
-                    : [`${columnId}-placeholder`]
+      <div className="flex gap-4 overflow-auto">
+        {(Object.entries(columns) as [ColumnType, CardItem[]][]).map(
+          ([columnId, items]) => (
+            <SortableContext
+              key={columnId}
+              items={
+                items.length > 0
+                  ? items.map((item) => item.id)
+                  : [`${columnId}-placeholder`]
+              }
+              strategy={verticalListSortingStrategy} // 세로 방향으로 드래그 시, 어떤 위치로 이동해야 하는지를 알려주는 전략
+            >
+              <KanbanColumn
+                columnId={columnId}
+                items={items}
+                onAdd={(text, columnId) =>
+                  addCard(text, columnId as ColumnType)
                 }
-                strategy={verticalListSortingStrategy} // 세로 방향으로 드래그 시, 어떤 위치로 이동해야 하는지를 알려주는 전략
-              >
-                <KanbanColumn
-                  columnId={columnId}
-                  items={items}
-                  onAdd={(text, columnId) =>
-                    addCard(text, columnId as ColumnType)
-                  }
-                />
-              </SortableContext>
-            )
-          )}
-        </div>
-      </DndContext>
-    </>
+              />
+            </SortableContext>
+          )
+        )}
+      </div>
+    </DndContext>
   );
 }

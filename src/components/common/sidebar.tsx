@@ -16,7 +16,7 @@ import {
 const users = {
   group: "user",
   list: [
-    { title: "Login", url: "/", icon: LogIn },
+    { title: "Login", url: "/login", icon: LogIn },
     { title: "Home", url: "/", icon: Home },
     { title: "Kanban", url: "/kanban", icon: Home },
   ],
