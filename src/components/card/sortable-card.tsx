@@ -5,13 +5,13 @@ import { CSS } from "@dnd-kit/utilities";
 import BoardCard from "./board-card";
 
 type Props = {
-  no: number;
+  id: string;
   title: string;
 };
 
-export default function SortableCard({ no, title }: Props) {
+export default function SortableCard({ id, title }: Props) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: no });
+    useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
