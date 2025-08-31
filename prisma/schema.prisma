@@ -16,7 +16,7 @@ datasource db {
 
 /** 사용자 */
 model User {
-  id          String      @id                                 // id
+  id          String      @id @db.VarChar(30)                 // id
   password    String      @db.VarChar(300)                    // 비밀번호
   nickNm      String      @unique         @map("nick_nm")     // 닉네임
   email       String      @unique                             // 이메일

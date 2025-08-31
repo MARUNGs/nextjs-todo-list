@@ -1,10 +1,10 @@
 -- CreateTable
 CREATE TABLE "public"."User" (
-    "id" TEXT NOT NULL,
+    "id" VARCHAR(30) NOT NULL,
     "password" VARCHAR(300) NOT NULL,
     "nick_nm" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "remark_txt" VARCHAR(500) NOT NULL,
+    "remark_txt" VARCHAR(500),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -17,8 +17,8 @@ CREATE TABLE "public"."todos" (
     "title" VARCHAR(50) NOT NULL,
     "status" VARCHAR(2) NOT NULL,
     "highlightYn" VARCHAR(1) NOT NULL,
-    "memo" TEXT NOT NULL,
-    "remark_txt" VARCHAR(500) NOT NULL,
+    "memo" TEXT,
+    "remark_txt" VARCHAR(500),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "userId" VARCHAR(300) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE "public"."common_cd" (
     "group_nm" VARCHAR(50) NOT NULL,
     "code" VARCHAR(50) NOT NULL,
     "value" VARCHAR(100) NOT NULL,
-    "remark_txt" VARCHAR(500) NOT NULL,
+    "remark_txt" VARCHAR(500),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
